@@ -1,0 +1,22 @@
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const ts = require('typescript');
+const Module = require('node:module');
+const fs = require('node:fs');
+const path = require('node:path');
+const source = path.resolve('lib/store.ts');
+const compiled = ts.transpileModule(fs.readFileSync(source, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText;
+const loaded = new Module(source, module);
+loaded.filename = source; loaded.paths = module.paths; loaded._compile(compiled, source);
+const { elapsedHours, todayIntake, emptyJournal } = loaded.exports;
+const fast = { id: 'test', start: '2026-10-10T12:00:00Z', mealAt: '2026-10-10T12:00:00Z', meal: '' };
+test('clock resumes from stored start instead of resetting on page load', () => assert.equal(elapsedHours(fast, Date.parse('2026-10-11T12:00:00Z')), 24));
+test('ending a fast freezes elapsed duration', () => assert.equal(elapsedHours({...fast, end:'2026-10-11T00:00:00Z'}, Date.parse('2026-10-13T12:00:00Z')), 12));
+test('future start never produces a negative duration', () => assert.equal(elapsedHours(fast, Date.parse('2026-10-09T12:00:00Z')), 0));
+test('72 hours is a window, not automatic termination', () => assert.equal(elapsedHours(fast, Date.parse('2026-10-13T13:00:00Z')), 73));
+test('daily hydration uses local calendar boundaries', () => {
+ const now = new Date(2026,9,11,0,1).getTime();
+ const items = [{id:'yesterday',at:new Date(2026,9,10,23,59).toISOString()},{id:'today',at:new Date(2026,9,11,0,0).toISOString()}];
+ assert.deepEqual(todayIntake(items, now).map(i=>i.id), ['today']);
+});
+test('new journals never share mutable records', () => { const a=emptyJournal(), b=emptyJournal();a.fasts.push(fast);assert.equal(b.fasts.length,0); });
