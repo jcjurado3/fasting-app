@@ -41,6 +41,22 @@
 .log-card h2{display:flex;align-items:center;gap:8px}
 .log-card .mood-options{margin-top:14px}
 .log-card form>.button{margin-top:16px}
+.sign-in-button{min-height:36px;padding:8px 14px;border-radius:20px;white-space:nowrap}
+.sign-in-inline{color:var(--green);font-size:11px;font-weight:650;text-decoration:underline;text-underline-offset:2px}
+.sign-in-sent{color:#66735c;font-size:14px;line-height:1.65;margin:6px 0 8px}
+.sign-in-sent b{color:var(--ink);font-weight:650}
+.sign-in-sheet .muted{margin-top:-6px}
+@media(max-width:700px){
+header.signed-out .header-date,header.signed-out .crumb-prefix{display:none}
+header.signed-out .sign-in-button{min-height:40px;padding:8px 12px}
+.cloud-banner{flex-direction:column;align-items:stretch}
+.cloud-banner span{font-size:12px}
+.cloud-banner .button{width:100%;min-height:48px;font-size:13px}
+.modal-backdrop:has(.sign-in-sheet){align-items:flex-end;padding:0}
+.sign-in-sheet{width:100%;max-width:none;border-radius:18px 18px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom))}
+.sign-in-sheet input{font-size:16px;min-height:48px}
+.sign-in-sheet .button.primary{min-height:48px;font-size:14px}
+}
 .sidebar{overflow-y:auto}
 .nav-item{padding:11px 13px;margin-bottom:4px}
 .sidebar-bottom{padding-top:18px}
