@@ -16,7 +16,7 @@ The app connects to `fasting-app` (`cdclkwasoxuemtxiosvg`). The ignored `.env.lo
 
 The schema in `supabase/schema.sql` defines the current database. `private.members` reserves Jimmy, Juan, and Bre by their supplied email addresses. Its rows are inaccessible to browser clients. An internal auth trigger rejects unreserved signups and creates each allowed account's profile and empty journal. Names are never assigned from user-editable metadata. Accounts are created when their owners request a sign-in link; a verified session is required to access records.
 
-For an existing project created before Bre was added, apply `supabase/add-bre.sql` in the Supabase SQL editor, then insert Bre's lowercase email into `private.members` as shown at the bottom of that file.
+For an existing project created before Bre was added, apply `supabase/add-bre.sql` in the Supabase SQL editor. It extends both name allowlists and reserves Bre's email in `private.members`.
 
 In the app, select **Settings & storage → Email a sign-in link**. Supabase's Site URL points to the deployed app and `http://localhost:3000` is an allowed local redirect.
 

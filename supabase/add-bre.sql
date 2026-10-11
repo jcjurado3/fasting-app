@@ -1,5 +1,5 @@
--- Apply this once to the existing Supabase project before reserving Bre's email.
--- The transaction keeps both allowlists in sync if either change fails.
+-- Apply this once to the existing Supabase project.
+-- The transaction keeps both allowlists and Bre's reservation in sync.
 begin;
 
 alter table public.profiles
@@ -14,9 +14,31 @@ alter table private.members
   add constraint members_name_check
   check (name in ('Jimmy', 'Juan', 'Bre'));
 
-commit;
+do $$
+declare
+  existing_name text;
+  existing_email text;
+begin
+  select name into existing_name
+  from private.members
+  where email = 'teamjurado3@gmail.com';
 
--- Run separately after replacing the email with Bre's real lowercase address:
--- insert into private.members (email, name)
--- values ('bre@example.com', 'Bre')
--- on conflict (email) do update set name = excluded.name;
+  if existing_name is not null and existing_name <> 'Bre' then
+    raise exception 'teamjurado3@gmail.com is already reserved for %', existing_name;
+  end if;
+
+  select email into existing_email
+  from private.members
+  where name = 'Bre';
+
+  if existing_name is null and existing_email is null then
+    insert into private.members (email, name)
+    values ('teamjurado3@gmail.com', 'Bre');
+  elsif existing_email is not null and existing_email <> 'teamjurado3@gmail.com' then
+    update private.members
+    set email = 'teamjurado3@gmail.com'
+    where name = 'Bre';
+  end if;
+end $$;
+
+commit;

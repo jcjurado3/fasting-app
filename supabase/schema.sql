@@ -8,7 +8,7 @@ create table public.profiles (
 );
 create table public.journals (
   user_id uuid primary key references public.profiles(id) on delete cascade,
-  data jsonb not null default '{"fasts":[],"intake":[],"checks":{},"waterGoal":2000,"notes":[]}'::jsonb,
+  data jsonb not null default '{"fasts":[],"intake":[],"checks":{},"waterGoal":2000,"notes":[],"checkins":[],"sleep":[],"workouts":[]}'::jsonb,
   revision bigint not null default 1,
   updated_at timestamptz not null default now(),
   constraint journal_object check (jsonb_typeof(data) = 'object')
