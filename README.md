@@ -1,6 +1,6 @@
 # Still — a mindful fasting companion
 
-Next.js App Router, React, TypeScript, and Supabase. Designed for Jimmy and Juan.
+Next.js App Router, React, TypeScript, and Supabase. Designed for Jimmy, Juan, and Bre.
 
 ## Run
 
@@ -8,24 +8,26 @@ Next.js App Router, React, TypeScript, and Supabase. Designed for Jimmy and Juan
 
 `npm run build` checks TypeScript and creates a static production build in `out/`. Deploy that folder to static hosting; Supabase provides the backend. `npm test` verifies timer and date-boundary behavior.
 
-Without Supabase environment variables, the app uses clearly labeled local browser storage, with separate Jimmy and Juan journals. Local profiles are a convenience, not an authentication boundary. No fast or health record is prepopulated.
+Without Supabase environment variables, the app uses clearly labeled local browser storage, with separate Jimmy, Juan, and Bre journals. Local profiles are a convenience, not an authentication boundary. No fast or health record is prepopulated.
 
 ## Connected Supabase project
 
 The app connects to `fasting-app` (`cdclkwasoxuemtxiosvg`). The ignored `.env.local` contains the project URL and public publishable key. Next.js embeds these public values at build time; rebuild after changing them. Never use a service-role key in the client.
 
-The schema in `supabase/schema.sql` has been applied remotely. `private.members` reserves Jimmy and Juan by their supplied email addresses. Its rows are inaccessible to browser clients. An internal auth trigger rejects unreserved signups and creates each allowed account's profile and empty journal. Names are never assigned from user-editable metadata. Accounts are created when their owners request a sign-in link; a verified session is required to access records.
+The schema in `supabase/schema.sql` defines the current database. `private.members` reserves Jimmy, Juan, and Bre by their supplied email addresses. Its rows are inaccessible to browser clients. An internal auth trigger rejects unreserved signups and creates each allowed account's profile and empty journal. Names are never assigned from user-editable metadata. Accounts are created when their owners request a sign-in link; a verified session is required to access records.
+
+For an existing project created before Bre was added, apply `supabase/add-bre.sql` in the Supabase SQL editor, then insert Bre's lowercase email into `private.members` as shown at the bottom of that file.
 
 In the app, select **Settings & storage → Email a sign-in link**. Supabase's Site URL points to the deployed app and `http://localhost:3000` is an allowed local redirect.
 
 ### Remaining email-delivery setup
 
-Custom SMTP is not configured yet. Supabase's default sender only delivers to addresses belonging to the Supabase organization team. Configure a verified email provider before relying on Juan's sign-in delivery. Do not grant database organization access merely to enable email delivery.
+Custom SMTP is not configured yet. Supabase's default sender only delivers to addresses belonging to the Supabase organization team. Configure a verified email provider before relying on another member's sign-in delivery. Do not grant database organization access merely to enable email delivery.
 
 - Supabase SMTP: https://supabase.com/dashboard/project/cdclkwasoxuemtxiosvg/auth/smtp
 - Resend setup: https://resend.com/docs/send-with-supabase-smtp
 
-The Sites deployment remains owner-private; sharing access with Juan is separate from Supabase authentication and must be configured before he can open that hosted URL.
+The Sites deployment remains owner-private; sharing deployment access is separate from Supabase authentication and must be configured for each member.
 
 ### Storage behavior and verification
 

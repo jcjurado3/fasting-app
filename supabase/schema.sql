@@ -4,7 +4,7 @@ create schema if not exists private;
 revoke all on schema private from public, anon, authenticated;
 create table public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
-  name text not null unique check (name in ('Jimmy', 'Juan'))
+  name text not null unique check (name in ('Jimmy', 'Juan', 'Bre'))
 );
 create table public.journals (
   user_id uuid primary key references public.profiles(id) on delete cascade,
@@ -15,7 +15,7 @@ create table public.journals (
 );
 create table private.members (
   email text primary key check (email = lower(email)),
-  name text not null unique check (name in ('Jimmy', 'Juan'))
+  name text not null unique check (name in ('Jimmy', 'Juan', 'Bre'))
 );
 alter table public.profiles enable row level security;
 alter table public.journals enable row level security;

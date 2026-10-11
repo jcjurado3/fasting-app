@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-export type Person = 'Jimmy' | 'Juan';
+export const people = ['Jimmy', 'Juan', 'Bre'] as const;
+export type Person = (typeof people)[number];
 export type Intake = { id: string; type: string; amount: number; at: string; note: string };
 export type Fast = { id: string; start: string; meal: string; mealAt: string; end?: string };
 export type Journal = { fasts: Fast[]; intake: Intake[]; checks: Record<string, boolean>; waterGoal: number; notes: {id:string; at:string; text:string; mood:string}[] };
