@@ -69,6 +69,7 @@ export function ProfileMenu({ person, disabled, locked, onChange }: { person: Pe
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
         aria-label={locked ? `${person}, signed-in profile` : 'Select profile'}
+        data-tour="profile"
         disabled={disabled}
         onClick={() => { setHighlight(person); setOpen((value) => !value); }}
       >
