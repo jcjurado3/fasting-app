@@ -10,15 +10,28 @@ Next.js App Router, React, TypeScript, and Supabase. Designed for Jimmy and Juan
 
 Without Supabase environment variables, the app uses clearly labeled local browser storage, with separate Jimmy and Juan journals. Local profiles are a convenience, not an authentication boundary. No fast or health record is prepopulated.
 
-## Enable private Supabase storage
+## Connected Supabase project
 
-1. Create/connect a Supabase project and run `supabase/schema.sql` in the SQL editor.
-2. Invite the two users in Supabase Authentication using their real email addresses. Add their Auth UUIDs to the commented profile insert at the bottom of the migration and run it. The unique name restriction reserves one account each for Jimmy and Juan.
-3. Copy `.env.example` to `.env.local`, setting the project URL and public anon/publishable key. Never use a service-role key in the browser.
-4. Add the app origin to Supabase Auth's Site URL and allowed redirect URLs (http://localhost:3000 for development).
-5. Restart the server. Go to Settings & storage and request an email sign-in link. Only invited accounts can sign in. Cloud profiles are fixed to the authenticated identity; row-level security isolates data.
+The app connects to `fasting-app` (`cdclkwasoxuemtxiosvg`). The ignored `.env.local` contains the project URL and public publishable key. Next.js embeds these public values at build time; rebuild after changing them. Never use a service-role key in the client.
 
-Local journals are not automatically uploaded or merged into cloud accounts. Export local records using Settings before moving devices. Cloud saving is acknowledged only after the database accepts the write. This initial implementation stores each user's journal in one JSONB row, so simultaneous writes from multiple tabs/devices can overwrite each other; use one active editing session per account.
+The schema in `supabase/schema.sql` has been applied remotely. `private.members` reserves Jimmy and Juan by their supplied email addresses. Its rows are inaccessible to browser clients. An internal auth trigger rejects unreserved signups and creates each allowed account's profile and empty journal. Names are never assigned from user-editable metadata. Accounts are created when their owners request a sign-in link; a verified session is required to access records.
+
+In the app, select **Settings & storage → Email a sign-in link**. Supabase's Site URL points to the deployed app and `http://localhost:3000` is an allowed local redirect.
+
+### Remaining email-delivery setup
+
+Custom SMTP is not configured yet. Supabase's default sender only delivers to addresses belonging to the Supabase organization team. Configure a verified email provider before relying on Juan's sign-in delivery. Do not grant database organization access merely to enable email delivery.
+
+- Supabase SMTP: https://supabase.com/dashboard/project/cdclkwasoxuemtxiosvg/auth/smtp
+- Resend setup: https://resend.com/docs/send-with-supabase-smtp
+
+The Sites deployment remains owner-private; sharing access with Juan is separate from Supabase authentication and must be configured before he can open that hosted URL.
+
+### Storage behavior and verification
+
+Local journals are not automatically uploaded or merged into cloud accounts. Export local records using Settings before moving devices. Cloud writes are acknowledged only after the database accepts them. Revision checks reject stale writes from another session instead of silently overwriting data. Reload before retrying a rejected change.
+
+Database assertions verified signup allowlisting, automatic profile creation, per-user reads, cross-user write denial, successful own writes, private email protection, and stale revision rejection. All test fixtures were rolled back. Supabase security advisors returned no findings after internal function grants were restricted.
 
 ## Features
 
