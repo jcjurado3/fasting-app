@@ -128,7 +128,8 @@ header.signed-out .sign-in-button{min-height:40px;padding:8px 12px}
 .modal-backdrop:has(.sign-in-sheet){align-items:flex-end;padding:0}
 .sign-in-sheet{width:100%;max-width:none;border-radius:18px 18px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom))}
 .sign-in-sheet input{font-size:16px;min-height:48px}
-.sign-in-sheet .button.primary{min-height:48px;font-size:14px}
+.sign-in-sheet .button.primary,.sign-in-sheet .button.secondary{min-height:48px;font-size:14px}
+.sign-in-actions{display:flex;flex-direction:column;gap:8px}
 }
 .sidebar{overflow-y:auto}
 .nav-item{padding:11px 13px;margin-bottom:4px}

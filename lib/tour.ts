@@ -28,7 +28,7 @@ export const tourSteps = [
   {
     id: 'sign-in',
     title: 'Sign in to save',
-    body: 'We email a link. Open it on this device. The cloud journal follows that email, and the profile reserved for it.',
+    body: 'Sign in with your password, or email a link and open it on this device. The cloud journal follows that email, and the profile reserved for it.',
     target: 'sign-in',
   },
 ] as const;
