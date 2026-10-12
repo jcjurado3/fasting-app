@@ -204,6 +204,24 @@ header.signed-out .sign-in-button{min-height:40px;padding:8px 12px}
 .avoid-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .avoid-list span{border:1px solid #eadfce;background:#f8f3ea;color:#8d7048;border-radius:20px;padding:7px 12px;font-size:12px}
 .guide-credit{color:#939987;font-size:12px;max-width:760px;margin-top:-6px}
+.growth-timeline{position:relative;margin-top:16px;text-align:left}
+.growth-track{position:absolute;left:8px;right:8px;top:4px;height:2px;background:#dfe5d0;border-radius:2px;overflow:hidden}
+.growth-track span{display:block;height:100%;background:#84966d;border-radius:2px;transition:width .8s linear}
+.growth-marks{position:relative;display:flex;justify-content:space-between;list-style:none;margin:0;padding:0}
+.growth-marks li{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
+.growth-marks i{width:9px;height:9px;border-radius:50%;background:#fffefa;border:1.5px solid #c9d2b8;display:block}
+.growth-marks .reached i{background:#84966d;border-color:#84966d}
+.growth-marks .now i{background:#c47650;border-color:#c47650;box-shadow:0 0 0 3px #f3e4da}
+.growth-marks.is-live .now i{animation:checkpoint-pulse 2.6s ease-in-out infinite}
+.growth-marks b{font-size:8px;font-weight:600;color:#8d937f;font-variant-numeric:tabular-nums}
+.bonsai-canopy{transform-box:view-box;transform-origin:50% 42%}
+.bonsai.is-live .bonsai-canopy{animation:bonsai-sway 8s ease-in-out infinite}
+.bonsai-grow{transition:stroke-dashoffset .9s linear,opacity .9s linear}
+@keyframes bonsai-sway{0%,100%{transform:rotate(-.7deg)}50%{transform:rotate(.9deg)}}
+@keyframes checkpoint-pulse{0%,100%{box-shadow:0 0 0 3px #f3e4da}50%{box-shadow:0 0 0 6px #f6d9cb}}
+@media(prefers-reduced-motion:reduce){
+.bonsai.is-live .bonsai-canopy,.growth-marks.is-live .now i{animation:none}
+}
 @media(max-width:900px){
 .guide-hero,.switch-grid,.timeline-card,.timeline-card:nth-child(even),.gki-layout,.refeed-lead,.refeed-pair,.caution-grid,.gki-fields{grid-template-columns:1fr}
 .timeline-card img,.timeline-card:nth-child(even) img{grid-column:1;grid-row:1}
