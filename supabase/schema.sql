@@ -59,6 +59,30 @@ revoke all on function private.provision_still_member() from public, anon, authe
 drop trigger if exists provision_still_member on auth.users;
 create trigger provision_still_member after insert on auth.users
   for each row execute function private.provision_still_member();
+-- Shared garden: start and finish times only, so each member can see the other trees.
+-- Journals, photos, and notes stay private to their owner.
+create table if not exists public.garden_progress (
+  name text primary key check (name in ('Jimmy', 'Juan', 'Bre')),
+  fast_start timestamptz,
+  fast_end timestamptz,
+  updated_at timestamptz not null default now()
+);
+alter table public.garden_progress enable row level security;
+revoke all on public.garden_progress from anon, authenticated;
+grant select, insert, update on public.garden_progress to authenticated;
+drop policy if exists "Read the garden" on public.garden_progress;
+drop policy if exists "Share own tree" on public.garden_progress;
+drop policy if exists "Update own tree" on public.garden_progress;
+create policy "Read the garden" on public.garden_progress
+  for select to authenticated
+  using (exists (select 1 from public.profiles where id = (select auth.uid())));
+create policy "Share own tree" on public.garden_progress
+  for insert to authenticated
+  with check (name = (select name from public.profiles where id = (select auth.uid())));
+create policy "Update own tree" on public.garden_progress
+  for update to authenticated
+  using (name = (select name from public.profiles where id = (select auth.uid())))
+  with check (name = (select name from public.profiles where id = (select auth.uid())));
 -- Supabase's project-created event trigger is internal, not a client RPC.
 do $$
 begin

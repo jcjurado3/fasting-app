@@ -204,6 +204,18 @@ header.signed-out .sign-in-button{min-height:40px;padding:8px 12px}
 .avoid-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .avoid-list span{border:1px solid #eadfce;background:#f8f3ea;color:#8d7048;border-radius:20px;padding:7px 12px;font-size:12px}
 .guide-credit{color:#939987;font-size:12px;max-width:760px;margin-top:-6px}
+.garden-link{margin-top:14px}
+.garden-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.garden-plot{background:#f0f2e7;border:1px solid var(--line);border-radius:13px;padding:18px 14px 20px;text-align:center;min-width:0}
+.garden-plot.yours{border-color:#b7c5a4;box-shadow:inset 0 0 0 1px #b7c5a4}
+.garden-plot .card-top h2{font-size:14px}
+.garden-plot .bonsai{height:210px;max-width:280px;margin:0 auto}
+.garden-stage{font-family:Manrope,sans-serif;font-weight:700;font-size:15px;margin-top:6px}
+.garden-status{font-size:11px;color:#8a917d;margin-top:4px}
+.garden-you{margin-left:8px;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#c47650}
+.garden-note{max-width:640px;margin:16px auto 0}
+@media(max-width:900px){.garden-grid{grid-template-columns:1fr}.garden-plot .bonsai{height:240px}}
+@media(max-width:700px){.sidebar nav .nav-item{flex:1;width:auto;min-width:0;font-size:8px;padding:6px 2px;gap:3px}}
 .growth-timeline{position:relative;margin-top:16px;text-align:left}
 .growth-track{position:absolute;left:8px;right:8px;top:4px;height:2px;background:#dfe5d0;border-radius:2px;overflow:hidden}
 .growth-track span{display:block;height:100%;background:#84966d;border-radius:2px;transition:width .8s linear}
